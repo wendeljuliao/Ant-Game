@@ -18,6 +18,10 @@ export default class TileMap {
     this.powerDot = this.pinkDot;
     this.powerDotAnmationTimerDefault = 30;
     this.powerDotAnmationTimer = this.powerDotAnmationTimerDefault;
+
+    /*  this.#addOuvintesMatriz(this.map); */
+
+    document.addEventListener("click", this.#click);
   }
 
   //1 - wall
@@ -53,6 +57,16 @@ export default class TileMap {
     [1, 4, 5, 5, 5, 5, 5, 5, 5, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
+
+  /* #addOuvintesMatriz(map) {
+    for (let row = 0; row < map.length; row++) {
+      for (let column = 0; column < map[row].length; column++) {
+        map[row][column].addEventListener("click", function () {
+          console.log("you clicked region number " + index);
+        });
+      }
+    }
+  } */
 
   draw(ctx) {
     for (let row = 0; row < this.map.length; row++) {
@@ -116,6 +130,26 @@ export default class TileMap {
     ctx.fillStyle = "black";
     ctx.fillRect(column * this.tileSize, row * this.tileSize, size, size);
   }
+
+  #click = (event) => {
+    if (event.target.innerText == "Fantasma") {
+      console.log("true");
+      this.map[4][4] = 6;
+    } else if (event.target.innerText == "Muro") {
+      let disponivelMuro = document.getElementById("disponivelMuro");
+
+      if (parseInt(disponivelMuro.innerText) > 0) {
+        let restante = parseInt(disponivelMuro.innerText) - 1;
+        disponivelMuro.innerText = restante;
+
+        let localMuro = document.getElementById("localMuro");
+
+        let [linha, coluna] = localMuro.value.split(" ");
+
+        this.map[parseInt(linha)][parseInt(coluna)] = 1;
+      }
+    }
+  };
 
   getPacman(velocity) {
     for (let row = 0; row < this.map.length; row++) {
