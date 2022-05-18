@@ -21,7 +21,7 @@ export default class TileMap {
 
     /*  this.#addOuvintesMatriz(this.map); */
 
-    document.addEventListener("click", this.#click);
+    //document.addEventListener("click", this.#click);
   }
 
   //1 - wall
@@ -47,7 +47,7 @@ export default class TileMap {
   map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 5, 5, 5, 5, 5, 5, 5, 0, 1],
-    [1, 5, 5, 5, 5, 5, 5, 5, 5, 1],
+    [1, 6, 5, 5, 5, 5, 5, 5, 5, 1],
     [1, 5, 5, 5, 5, 5, 5, 5, 5, 1],
     [1, 5, 5, 5, 5, 5, 5, 5, 5, 1],
     [1, 5, 5, 5, 5, 5, 5, 5, 5, 1],
@@ -131,7 +131,8 @@ export default class TileMap {
     ctx.fillRect(column * this.tileSize, row * this.tileSize, size, size);
   }
 
-  #click = (event) => {
+  /*   #click = (event) => {
+    console.log(event);
     if (event.target.innerText == "Fantasma") {
       console.log("true");
       this.map[4][4] = 6;
@@ -149,7 +150,7 @@ export default class TileMap {
         this.map[parseInt(linha)][parseInt(coluna)] = 1;
       }
     }
-  };
+  }; */
 
   getPacman(velocity) {
     for (let row = 0; row < this.map.length; row++) {

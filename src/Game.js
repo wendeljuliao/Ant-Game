@@ -11,8 +11,11 @@ const enemies = tileMap.getEnemies(velocity);
 
 let gameOver = false;
 let gameWin = false;
+let isBntPausado = false;
 const gameOverSound = new Audio("sounds/gameOver.wav");
 const gameWinSound = new Audio("sounds/gameWin.wav");
+
+document.addEventListener("click", btnPausar);
 
 function gameLoop() {
   tileMap.draw(ctx);
@@ -47,8 +50,19 @@ function isGameOver() {
   );
 }
 
+function btnPausar(event) {
+  //console.log(event);
+  if (event.target.value == "Pausar") {
+    console.log("pausar");
+    isBntPausado = true;
+    return;
+  }
+  isBntPausado = false;
+  return;
+}
+
 function pause() {
-  return !pacman.madeFirstMove || gameOver || gameWin;
+  return !pacman.madeFirstMove || gameOver || gameWin || isBntPausado;
 }
 
 function drawGameEnd() {
@@ -73,4 +87,4 @@ function drawGameEnd() {
 }
 
 tileMap.setCanvasSize(canvas);
-setInterval(gameLoop, 1000 / 75);
+setInterval(gameLoop, 1000 / 60);

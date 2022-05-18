@@ -21,12 +21,28 @@ export default class Enemy {
     this.scaredAboutToExpireTimer = this.scaredAboutToExpireTimerDefault;
   }
 
+  getCoordinates() {
+    if (
+      Number.isInteger(this.x / this.tileSize) &&
+      Number.isInteger(this.y / this.tileSize)
+    ) {
+      return { x: this.x / this.tileSize, y: this.y / this.tileSize };
+    }
+    return undefined;
+  }
+
   draw(ctx, pause, pacman) {
     if (!pause) {
       this.#move();
       this.#changeDirection();
     }
     this.#setImage(ctx, pacman);
+
+    // COORDENADAS DO INIMIGO
+    //console.log(this.getCoordinates());
+
+    // COORDENADAS DO PLAYER
+    //console.log(pacman.getCoordinates());
   }
 
   collideWith(pacman) {

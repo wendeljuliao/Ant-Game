@@ -38,6 +38,16 @@ export default class Pacman {
     up: 3,
   };
 
+  getCoordinates() {
+    if (
+      Number.isInteger(this.x / this.tileSize) &&
+      Number.isInteger(this.y / this.tileSize)
+    ) {
+      return { x: this.x / this.tileSize, y: this.y / this.tileSize };
+    }
+    return undefined;
+  }
+
   draw(ctx, pause, enemies) {
     if (!pause) {
       this.#move();
