@@ -53,11 +53,14 @@ function isGameOver() {
 function btnPausar(event) {
   //console.log(event);
   if (event.target.value == "Pausar") {
-    console.log("pausar");
+    event.target.value = "Continuar";
     isBntPausado = true;
     return;
+  } else if (event.target.value == "Continuar") {
+    event.target.value = "Pausar";
+    isBntPausado = false;
+    return;
   }
-  isBntPausado = false;
   return;
 }
 
