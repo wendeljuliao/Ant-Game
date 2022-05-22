@@ -1,4 +1,7 @@
 import MovingDirection from "./MovingDirection.js";
+import { dijkstra } from "../utils/dijkstra.js";
+import { translatePosToNodeIndex, getNewMoveDirection, getCoordFromNodeIndex } from "../utils/parse-utils.js";
+import { adjacencyMatrix } from "../utils/adjacency-matrix.js";
 
 export default class Enemy {
   constructor(x, y, tileSize, velocity, tileMap) {
@@ -19,6 +22,7 @@ export default class Enemy {
 
     this.scaredAboutToExpireTimerDefault = 10;
     this.scaredAboutToExpireTimer = this.scaredAboutToExpireTimerDefault;
+    this.shortestPath = [];
   }
 
   getCoordinates() {
@@ -31,10 +35,19 @@ export default class Enemy {
     return undefined;
   }
 
+  drawPath(ctx) {
+    for(let i=0; i<this.shortestPath.length-1; i++){
+      const {x,y} = getCoordFromNodeIndex(this.shortestPath[i]);
+      ctx.drawImage(this.crumbs, x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
+    }
+  }
+
   draw(ctx, pause, pacman) {
     if (!pause) {
       this.#move();
-      this.#changeDirection();
+      this.#changeDirection(pacman);
+    }else{
+      this.drawPath(ctx);
     }
     this.#setImage(ctx, pacman);
 
@@ -61,6 +74,7 @@ export default class Enemy {
 
   #setImage(ctx, pacman) {
     if (pacman.powerDotActive) {
+      
       this.#setImageWhenPowerDotIsActive(pacman);
     } else {
       this.image = this.normalGhost;
@@ -84,14 +98,24 @@ export default class Enemy {
     }
   }
 
-  #changeDirection() {
-    this.directionTimer--;
+  #changeDirection(pacman) {
+    this.directionTimer = 0;
     let newMoveDirection = null;
     if (this.directionTimer == 0) {
       this.directionTimer = this.directionTimerDefault;
-      newMoveDirection = Math.floor(
-        Math.random() * Object.keys(MovingDirection).length
-      );
+      if (
+        Number.isInteger(this.x / this.tileSize) &&
+        Number.isInteger(this.y / this.tileSize)
+      ) {
+        const originNodeIndex = translatePosToNodeIndex(this.x/ this.tileSize, this.y/ this.tileSize);
+        const destNodeIndex = translatePosToNodeIndex(pacman.x/ this.tileSize, pacman.y/ this.tileSize);
+        this.shortestPath = dijkstra(adjacencyMatrix, originNodeIndex, destNodeIndex).shortestPath;
+        this.shortestPath.shift();
+        newMoveDirection = getNewMoveDirection(originNodeIndex, this.shortestPath[0]);
+        this.shortestPath.shift()
+      }
+    
+
     }
 
     if (newMoveDirection != null && this.movingDirection != newMoveDirection) {
@@ -150,6 +174,9 @@ export default class Enemy {
 
     this.scaredGhost2 = new Image();
     this.scaredGhost2.src = "images/scaredGhost2.png";
+
+    this.crumbs = new Image();
+    this.crumbs.src = "images/pinkDot.png"
 
     this.image = this.normalGhost;
   }
