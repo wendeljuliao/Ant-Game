@@ -13,6 +13,8 @@ export default class Enemy {
     this.y = y;
     this.tileSize = tileSize;
     this.velocity = velocity;
+    this.constVelocity = velocity;
+
     this.tileMap = tileMap;
 
     this.#loadImages();
@@ -153,6 +155,17 @@ export default class Enemy {
   }
 
   #move() {
+    if (
+      Number.isInteger(this.x / this.tileSize) &&
+      Number.isInteger(this.y / this.tileSize)
+    ) {
+      if (this.tileMap.isSandBlock(this.x, this.y)) {
+        this.velocity = this.constVelocity / 2;
+      } else {
+        this.velocity = this.constVelocity;
+      }
+    }
+
     if (
       !this.tileMap.didCollideWithEnvironment(
         this.x,
