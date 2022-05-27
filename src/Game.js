@@ -53,12 +53,21 @@ function isGameOver() {
 function btnPausar(event) {
   //console.log(event);
   if (event.target.value == "Pausar") {
+    document.getElementById("pausar").style.backgroundColor =
+      "rgb(10, 10, 100)";
+
     event.target.value = "Continuar";
     isBntPausado = true;
+
+    document.getElementById("content-peso").style.display = "flex";
     return;
   } else if (event.target.value == "Continuar") {
+    document.getElementById("pausar").style.backgroundColor = "red";
+
     event.target.value = "Pausar";
     isBntPausado = false;
+
+    document.getElementById("content-peso").style.display = "none";
     return;
   }
   return;
