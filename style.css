@@ -19,7 +19,7 @@
   border-radius: 10px;
   border: 0;
 
-  background-color: rgb(10, 10, 100);
+  background-color: red;
   color: white;
   font-size: 20px;
 
@@ -28,4 +28,12 @@
 
 #pausar:hover {
   opacity: 0.6;
+}
+
+h2 {
+  display: none;
+  
+  text-align: center;
+  font-family: comic sans MS;
+  color: lightgrey;
 }

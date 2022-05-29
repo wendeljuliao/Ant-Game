@@ -138,11 +138,17 @@ export default class Pacman {
   };
 
   #move() {
-    if (this.tileMap.isSandBlock(this.x, this.y)) {
-      this.velocity = this.constVelocity / 2;
-    } else {
-      this.velocity = this.constVelocity;
+    if (
+      Number.isInteger(this.x / this.tileSize) &&
+      Number.isInteger(this.y / this.tileSize)
+    ) {
+      if (this.tileMap.isSandBlock(this.x, this.y)) {
+        this.velocity = this.constVelocity / 2;
+      } else {
+        this.velocity = this.constVelocity;
+      }
     }
+
     if (this.currentMovingDirection !== this.requestedMovingDirection) {
       if (
         Number.isInteger(this.x / this.tileSize) &&
