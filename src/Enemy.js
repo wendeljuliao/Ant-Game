@@ -19,6 +19,11 @@ export default class Enemy {
 
     this.#loadImages();
 
+    this.enemyAnimationTimerDefault = 10;
+    this.enemyAnimationTimer = null;
+
+    this.enemyRotation = this.Rotation.right;
+
     this.movingDirection = Math.floor(
       Math.random() * Object.keys(MovingDirection).length
     );
@@ -30,6 +35,13 @@ export default class Enemy {
     this.scaredAboutToExpireTimer = this.scaredAboutToExpireTimerDefault;
     this.shortestPath = [];
   }
+
+  Rotation = {
+    right: 0,
+    down: 1,
+    left: 2,
+    up: 3,
+  };
 
   getCoordinates() {
     if (
@@ -58,9 +70,11 @@ export default class Enemy {
     if (!pause) {
       this.#move();
       this.#changeDirection(pacman);
+      this.#animate();
     } else {
       this.drawPath(ctx);
     }
+
     this.#setImage(ctx, pacman);
 
     // COORDENADAS DO INIMIGO
@@ -68,6 +82,19 @@ export default class Enemy {
 
     // COORDENADAS DO PLAYER
     //console.log(pacman.getCoordinates());
+  }
+
+  #animate() {
+    if (this.enemyAnimationTimer == null) {
+      return;
+    }
+    this.enemyAnimationTimer--;
+    if (this.enemyAnimationTimer == 0) {
+      this.enemyAnimationTimer = this.enemyAnimationTimerDefault;
+      this.enemyImageIndex++;
+      if (this.enemyImageIndex == this.enemyImages.length)
+        this.enemyImageIndex = 0;
+    }
   }
 
   collideWith(pacman) {
@@ -88,7 +115,7 @@ export default class Enemy {
     if (pacman.powerDotActive) {
       this.#setImageWhenPowerDotIsActive(pacman);
     } else {
-      this.image = this.normalGhost;
+      this.image = this.enemyImages[this.enemyImageIndex];
     }
     ctx.drawImage(this.image, this.x, this.y, this.tileSize, this.tileSize);
   }
@@ -156,6 +183,20 @@ export default class Enemy {
 
   #move() {
     if (
+      this.tileMap.didCollideWithEnvironment(
+        this.x,
+        this.y,
+        this.movingDirection
+      )
+    ) {
+      this.enemyAnimationTimer = null;
+      this.enemyImageIndex = 1;
+      return;
+    } else if (
+      this.movingDirection != null &&
+      this.enemyAnimationTimer == null
+    ) {
+      this.enemyAnimationTimer = this.enemyAnimationTimerDefault;
       Number.isInteger(this.x / this.tileSize) &&
       Number.isInteger(this.y / this.tileSize)
     ) {
@@ -176,15 +217,19 @@ export default class Enemy {
       switch (this.movingDirection) {
         case MovingDirection.up:
           this.y -= this.velocity;
+          this.enemyRotation = this.Rotation.up;
           break;
         case MovingDirection.down:
           this.y += this.velocity;
+          this.enemyRotation = this.Rotation.down;
           break;
         case MovingDirection.left:
           this.x -= this.velocity;
+          this.enemyRotation = this.Rotation.left;
           break;
         case MovingDirection.right:
           this.x += this.velocity;
+          this.enemyRotation = this.Rotation.right;
           break;
       }
     }
@@ -195,10 +240,26 @@ export default class Enemy {
   }
 
   #loadImages() {
-    this.normalGhost = new Image();
-    this.normalGhost.src = "images/ghost.png";
+    /*     this.normalGhost = new Image();
+    this.normalGhost.src = "images/locust1.png"; */
 
-    this.scaredGhost = new Image();
+    const enemyImage1 = new Image();
+    enemyImage1.src = "images/locust1.png";
+
+    const enemyImage2 = new Image();
+    enemyImage2.src = "images/locust2.png";
+
+    const enemyImage3 = new Image();
+    enemyImage3.src = "images/locust3.png";
+
+    const enemyImage4 = new Image();
+    enemyImage4.src = "images/locust4.png";
+
+    this.enemyImages = [enemyImage1, enemyImage2, enemyImage3, enemyImage4];
+
+    this.enemyImageIndex = 0;
+
+    /* this.scaredGhost = new Image();
     this.scaredGhost.src = "images/scaredGhost.png";
 
     this.scaredGhost2 = new Image();
@@ -207,6 +268,6 @@ export default class Enemy {
     this.crumbs = new Image();
     this.crumbs.src = "images/pinkDot.png";
 
-    this.image = this.normalGhost;
+    this.image = this.normalGhost; */
   }
 }
