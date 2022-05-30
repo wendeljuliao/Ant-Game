@@ -37,10 +37,8 @@ export default class Enemy {
   }
 
   Rotation = {
-    right: 0,
-    down: 1,
-    left: 2,
-    up: 3,
+    right: -1,
+    left: 1,
   };
 
   getCoordinates() {
@@ -117,7 +115,22 @@ export default class Enemy {
     } else {
       this.image = this.enemyImages[this.enemyImageIndex];
     }
-    ctx.drawImage(this.image, this.x, this.y, this.tileSize, this.tileSize);
+    //ctx.drawImage(this.image, this.x, this.y, this.tileSize, this.tileSize);
+    const size = this.tileSize / 2;
+
+    ctx.save();
+    ctx.translate(this.x + size, this.y + size);
+    //ctx.rotate((this.enemyRotation * 90 * Math.PI) / 180);
+    ctx.scale(this.enemyRotation * 1, 1);
+    ctx.drawImage(
+      this.enemyImages[this.enemyImageIndex],
+      -size,
+      -size,
+      this.tileSize,
+      this.tileSize
+    );
+
+    ctx.restore();
   }
 
   #setImageWhenPowerDotIsActive(pacman) {
@@ -222,11 +235,11 @@ export default class Enemy {
       switch (this.movingDirection) {
         case MovingDirection.up:
           this.y -= this.velocity;
-          this.enemyRotation = this.Rotation.up;
+          //this.enemyRotation = this.Rotation.up;
           break;
         case MovingDirection.down:
           this.y += this.velocity;
-          this.enemyRotation = this.Rotation.down;
+          //this.enemyRotation = this.Rotation.down;
           break;
         case MovingDirection.left:
           this.x -= this.velocity;
