@@ -55,6 +55,7 @@ export default class TileMap {
   //5 - enemy
   //999 - wall
 
+  // 16 linhas 28 colunas
   map = [
     [
       999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999,

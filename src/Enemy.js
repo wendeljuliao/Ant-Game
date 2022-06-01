@@ -52,7 +52,8 @@ export default class Enemy {
   }
 
   drawPath(ctx) {
-    for (let i = 0; i < this.shortestPath.length - 1; i++) {
+    // Colocar no ponto em que ele vai (o inimigo)
+    for (let i = 0; i < this.shortestPath.length; i++) {
       const { x, y } = getCoordFromNodeIndex(this.shortestPath[i]);
       ctx.drawImage(
         this.crumbs,
@@ -110,11 +111,11 @@ export default class Enemy {
   }
 
   #setImage(ctx, pacman) {
-    if (pacman.powerDotActive) {
+    /* if (pacman.powerDotActive) {
       this.#setImageWhenPowerDotIsActive(pacman);
-    } else {
-      this.image = this.enemyImages[this.enemyImageIndex];
-    }
+    } else { }*/
+    this.image = this.enemyImages[this.enemyImageIndex];
+
     //ctx.drawImage(this.image, this.x, this.y, this.tileSize, this.tileSize);
     const size = this.tileSize / 2;
 
@@ -133,7 +134,7 @@ export default class Enemy {
     ctx.restore();
   }
 
-  #setImageWhenPowerDotIsActive(pacman) {
+  /*  #setImageWhenPowerDotIsActive(pacman) {
     if (pacman.powerDotAboutToExpire) {
       this.scaredAboutToExpireTimer--;
       if (this.scaredAboutToExpireTimer === 0) {
@@ -147,7 +148,7 @@ export default class Enemy {
     } else {
       this.image = this.scaredGhost;
     }
-  }
+  } */
 
   #changeDirection(pacman) {
     this.directionTimer = 0;
@@ -168,10 +169,12 @@ export default class Enemy {
         originNodeIndex,
         destNodeIndex
       ).shortestPath;
-      this.shortestPath.shift();
+      // Removi esse shift para poder ter o primeiro elemento que é o pontinho dps do inimigo
+      // e incrementei o indice de 0 para 1 para o inimigo pegar sempre a posição adiante, como já estava
+      //this.shortestPath.shift();
       newMoveDirection = getNewMoveDirection(
         originNodeIndex,
-        this.shortestPath[0]
+        this.shortestPath[1]
       );
       this.shortestPath.shift();
     }
@@ -221,8 +224,8 @@ export default class Enemy {
       this.enemyAnimationTimer == null
     ) {
       this.enemyAnimationTimer = this.enemyAnimationTimerDefault;
-      Number.isInteger(this.x / this.tileSize) &&
-        Number.isInteger(this.y / this.tileSize);
+      /* Number.isInteger(this.x / this.tileSize) &&
+        Number.isInteger(this.y / this.tileSize); */
     }
 
     if (
@@ -277,15 +280,15 @@ export default class Enemy {
 
     this.enemyImageIndex = 0;
 
-    /* this.scaredGhost = new Image();
+    /*  this.scaredGhost = new Image();
     this.scaredGhost.src = "images/scaredGhost.png";
 
     this.scaredGhost2 = new Image();
-    this.scaredGhost2.src = "images/scaredGhost2.png";
+    this.scaredGhost2.src = "images/scaredGhost2.png"; */
 
     this.crumbs = new Image();
     this.crumbs.src = "images/pinkDot.png";
 
-    this.image = this.normalGhost; */
+    /* this.image = this.normalGhost; */
   }
 }
