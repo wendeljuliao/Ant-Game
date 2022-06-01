@@ -8,6 +8,9 @@ export default class Pacman {
     this.velocity = velocity;
     this.constVelocity = velocity;
 
+    this.yellowDot = new Image();
+    this.yellowDot.src = "images/yellowDot.png";
+
     this.tileMap = tileMap;
 
     this.currentMovingDirection = null;
@@ -50,7 +53,7 @@ export default class Pacman {
     return undefined;
   }
 
-  draw(ctx, pause, enemies) {
+  draw(ctx, pause, enemies, showDots) {
     if (!pause) {
       this.#move();
       this.#animate();
@@ -64,13 +67,22 @@ export default class Pacman {
     ctx.save();
     ctx.translate(this.x + size, this.y + size);
     ctx.rotate((this.pacmanRotation * 90 * Math.PI) / 180);
-    ctx.drawImage(
-      this.pacmanImages[this.pacmanImageIndex],
-      -size,
-      -size,
-      this.tileSize,
-      this.tileSize
-    );
+    if (showDots)
+      ctx.drawImage(
+        this.yellowDot,
+        -size,
+        -size,
+        this.tileSize,
+        this.tileSize
+      );
+    else
+      ctx.drawImage(
+        this.pacmanImages[this.pacmanImageIndex],
+        -size,
+        -size,
+        this.tileSize,
+        this.tileSize
+      );
 
     ctx.restore();
 

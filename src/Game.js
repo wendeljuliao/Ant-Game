@@ -20,8 +20,8 @@ document.addEventListener("click", btnPausar);
 function gameLoop() {
   tileMap.draw(ctx);
   drawGameEnd();
-  pacman.draw(ctx, pause(), enemies);
-  enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman));
+  enemies.forEach((enemy) => enemy.draw(ctx, pause(), pacman, isBntPausado));
+  pacman.draw(ctx, pause(), enemies, isBntPausado);
   checkGameOver();
   checkGameWin();
 }

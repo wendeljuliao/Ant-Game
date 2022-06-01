@@ -19,6 +19,9 @@ export default class Enemy {
 
     this.#loadImages();
 
+    this.redDot = new Image();
+    this.redDot.src = "images/redDot.png";
+
     this.enemyAnimationTimerDefault = 10;
     this.enemyAnimationTimer = null;
 
@@ -65,7 +68,7 @@ export default class Enemy {
     }
   }
 
-  draw(ctx, pause, pacman) {
+  draw(ctx, pause, pacman, showDots) {
     if (!pause) {
       this.#move();
       this.#changeDirection(pacman);
@@ -74,7 +77,7 @@ export default class Enemy {
       this.drawPath(ctx);
     }
 
-    this.#setImage(ctx, pacman);
+    this.#setImage(ctx, pacman, showDots);
 
     // COORDENADAS DO INIMIGO
     //console.log(this.getCoordinates());
@@ -110,7 +113,7 @@ export default class Enemy {
     }
   }
 
-  #setImage(ctx, pacman) {
+  #setImage(ctx, pacman, pause) {
     /* if (pacman.powerDotActive) {
       this.#setImageWhenPowerDotIsActive(pacman);
     } else { }*/
@@ -123,13 +126,22 @@ export default class Enemy {
     ctx.translate(this.x + size, this.y + size);
     //ctx.rotate((this.enemyRotation * 90 * Math.PI) / 180);
     ctx.scale(this.enemyRotation * 1, 1);
-    ctx.drawImage(
-      this.enemyImages[this.enemyImageIndex],
-      -size,
-      -size,
-      this.tileSize,
-      this.tileSize
-    );
+    if (pause)
+      ctx.drawImage(
+        this.redDot,
+        -size,
+        -size,
+        this.tileSize,
+        this.tileSize
+      );
+    else
+      ctx.drawImage(
+        this.enemyImages[this.enemyImageIndex],
+        -size,
+        -size,
+        this.tileSize,
+        this.tileSize
+      );
 
     ctx.restore();
   }
@@ -287,7 +299,7 @@ export default class Enemy {
     this.scaredGhost2.src = "images/scaredGhost2.png"; */
 
     this.crumbs = new Image();
-    this.crumbs.src = "images/pinkDot.png";
+    this.crumbs.src = "images/whiteDot.png";
 
     /* this.image = this.normalGhost; */
   }
