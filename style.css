@@ -37,3 +37,11 @@ h2 {
   font-family: comic sans MS;
   color: lightgrey;
 }
+
+h3 {
+  display: none;
+  
+  text-align: center;
+  font-family: comic sans MS;
+  color: lightgrey;
+}

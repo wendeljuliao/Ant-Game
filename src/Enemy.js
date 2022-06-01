@@ -8,7 +8,7 @@ import {
 import { adjacencyMatrix } from "../utils/adjacency-matrix.js";
 
 export default class Enemy {
-  constructor(x, y, tileSize, velocity, tileMap) {
+  constructor(x, y, tileSize, velocity, tileMap, index) {
     this.x = x;
     this.y = y;
     this.tileSize = tileSize;
@@ -37,6 +37,8 @@ export default class Enemy {
     this.scaredAboutToExpireTimerDefault = 10;
     this.scaredAboutToExpireTimer = this.scaredAboutToExpireTimerDefault;
     this.shortestPath = [];
+
+    this.index = index;
   }
 
   Rotation = {
@@ -56,8 +58,10 @@ export default class Enemy {
 
   drawPath(ctx) {
     // Colocar no ponto em que ele vai (o inimigo)
+    let soma = 0;
     for (let i = 0; i < this.shortestPath.length; i++) {
       const { x, y } = getCoordFromNodeIndex(this.shortestPath[i]);
+      soma += this.tileMap.map[y][x];
       ctx.drawImage(
         this.crumbs,
         x * this.tileSize,
@@ -65,6 +69,11 @@ export default class Enemy {
         this.tileSize,
         this.tileSize
       );
+    }
+    if (this.index == 1) {
+      document.getElementById("peso").innerHTML = soma;
+    } else {
+      document.getElementById("peso2").innerHTML = soma;
     }
   }
 
@@ -127,13 +136,7 @@ export default class Enemy {
     //ctx.rotate((this.enemyRotation * 90 * Math.PI) / 180);
     ctx.scale(this.enemyRotation * 1, 1);
     if (pause)
-      ctx.drawImage(
-        this.redDot,
-        -size,
-        -size,
-        this.tileSize,
-        this.tileSize
-      );
+      ctx.drawImage(this.redDot, -size, -size, this.tileSize, this.tileSize);
     else
       ctx.drawImage(
         this.enemyImages[this.enemyImageIndex],

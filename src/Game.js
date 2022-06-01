@@ -60,6 +60,7 @@ function btnPausar(event) {
     isBntPausado = true;
 
     document.getElementById("content-peso").style.display = "flex";
+    document.getElementById("content-peso2").style.display = "flex";
     return;
   } else if (event.target.value == "Continuar") {
     document.getElementById("pausar").style.backgroundColor = "red";
@@ -68,6 +69,7 @@ function btnPausar(event) {
     isBntPausado = false;
 
     document.getElementById("content-peso").style.display = "none";
+    document.getElementById("content-peso2").style.display = "none";
     return;
   }
   return;
