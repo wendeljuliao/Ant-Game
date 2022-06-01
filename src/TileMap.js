@@ -22,7 +22,6 @@ export default class TileMap {
     this.powerDotAnmationTimerDefault = 30;
     this.powerDotAnmationTimer = this.powerDotAnmationTimerDefault;
 
-    //
     /*  this.#addOuvintesMatriz(this.map); */
 
     //document.addEventListener("click", this.#click);
