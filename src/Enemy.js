@@ -171,11 +171,11 @@ export default class Enemy {
     if (this.directionTimer == 0) {
       this.directionTimer = this.directionTimerDefault;
 
-      let enemyX = Math.ceil(this.x / this.tileSize);
-      let enemyY = Math.ceil(this.y / this.tileSize);
+      let enemyX = Math.round(this.x / this.tileSize);
+      let enemyY = Math.round(this.y / this.tileSize);
 
-      let pacmanX = Math.ceil(pacman.x / this.tileSize);
-      let pacmanY = Math.ceil(pacman.y / this.tileSize);
+      let pacmanX = Math.round(pacman.x / this.tileSize);
+      let pacmanY = Math.round(pacman.y / this.tileSize);
 
       const originNodeIndex = translatePosToNodeIndex(enemyX, enemyY);
       const destNodeIndex = translatePosToNodeIndex(pacmanX, pacmanY);

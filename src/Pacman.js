@@ -59,8 +59,8 @@ export default class Pacman {
       this.#animate();
     }
     this.#eatDot();
-    this.#eatPowerDot();
-    this.#eatGhost(enemies);
+    /* this.#eatPowerDot();
+    this.#eatGhost(enemies); */
 
     const size = this.tileSize / 2;
 
@@ -68,13 +68,7 @@ export default class Pacman {
     ctx.translate(this.x + size, this.y + size);
     ctx.rotate((this.pacmanRotation * 90 * Math.PI) / 180);
     if (showDots)
-      ctx.drawImage(
-        this.yellowDot,
-        -size,
-        -size,
-        this.tileSize,
-        this.tileSize
-      );
+      ctx.drawImage(this.yellowDot, -size, -size, this.tileSize, this.tileSize);
     else
       ctx.drawImage(
         this.pacmanImages[this.pacmanImageIndex],
@@ -233,7 +227,7 @@ export default class Pacman {
     }
   }
 
-  #eatPowerDot() {
+  /* #eatPowerDot() {
     if (this.tileMap.eatPowerDot(this.x, this.y)) {
       this.powerDotSound.play();
       this.powerDotActive = true;
@@ -264,5 +258,5 @@ export default class Pacman {
         this.eatGhostSound.play();
       });
     }
-  }
+  } */
 }
