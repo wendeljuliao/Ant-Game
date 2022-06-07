@@ -21,6 +21,8 @@ export default class Enemy {
 
     this.redDot = new Image();
     this.redDot.src = "images/redDot.png";
+    this.pinkDot = new Image();
+    this.pinkDot.src = "images/pinkDot.png";
 
     this.enemyAnimationTimerDefault = 10;
     this.enemyAnimationTimer = null;
@@ -136,7 +138,11 @@ export default class Enemy {
     //ctx.rotate((this.enemyRotation * 90 * Math.PI) / 180);
     ctx.scale(this.enemyRotation * 1, 1);
     if (pause)
-      ctx.drawImage(this.redDot, -size, -size, this.tileSize, this.tileSize);
+      if (this.index == 1) {
+        ctx.drawImage(this.redDot, -size, -size, this.tileSize, this.tileSize);
+      } else {
+        ctx.drawImage(this.pinkDot, -size, -size, this.tileSize, this.tileSize);
+      }
     else
       ctx.drawImage(
         this.enemyImages[this.enemyImageIndex],
